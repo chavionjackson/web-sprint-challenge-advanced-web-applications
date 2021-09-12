@@ -1,4 +1,6 @@
+import axios from "axios";
 import React, { useState } from "react";
+import { axiosWithAuth } from "../helpers/axiosWithAuth";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -18,9 +20,17 @@ const Login = () => {
   // make a post request to retrieve a token from the api
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ( credentials.username || credentials.password === '' ) {
+    if ( credentials.username !== 'Lambda' || credentials.password !== 'School' ) {
       setError('Username and Password are incorrect')
-    }
+    } else 
+    // axios.post("http://localhost:5000/api/login", credentials)
+    axiosWithAuth()
+    .post('api/login', credentials)
+    .then(res => {
+      console.log(res)
+      localStorage.setItem('token', res.data.payload)
+    })
+    .catch(err => console.log('something wrong with request', {err}))
   };
 
   // when you have handled the token, navigate to the BubblePage route
