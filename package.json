@@ -10,6 +10,7 @@
     "@testing-library/user-event": "^13.2.0",
     "axios": "^0.21.1",
     "jest-environment-jsdom-sixteen": "^1.0.3",
+    "mdbreact": "^5.1.0",
     "mutationobserver-shim": "^0.3.7",
     "react": "^16.0.0",
     "react-dom": "^16.0.0",
