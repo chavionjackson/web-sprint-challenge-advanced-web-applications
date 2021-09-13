@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useState } from "react";
-import { axiosWithAuth } from "../helpers/axiosWithAuth";
+import { useHistory } from "react-router";
+import axiosWithAuth from "../helpers/axiosWithAuth";
 
 const Login = () => {
   const [credentials, setCredentials] = useState({
@@ -9,6 +10,8 @@ const Login = () => {
   });
 
   const [error, setError] = useState("");
+
+  const { push } = useHistory();
 
   const handleChange = (e) => {
     setCredentials({
@@ -20,17 +23,21 @@ const Login = () => {
   // make a post request to retrieve a token from the api
   const handleSubmit = (e) => {
     e.preventDefault();
-    if ( credentials.username !== 'Lambda' || credentials.password !== 'School' ) {
-      setError('Username and Password are incorrect')
-    } else 
+    if (
+      credentials.username !== "Lambda" ||
+      credentials.password !== "School"
+    ) {
+      setError("Username and Password are incorrect");
+    }
     // axios.post("http://localhost:5000/api/login", credentials)
     axiosWithAuth()
-    .post('api/login', credentials)
-    .then(res => {
-      console.log(res)
-      localStorage.setItem('token', res.data.payload)
-    })
-    .catch(err => console.log('something wrong with request', {err}))
+      .post("http://localhost:5000/api/login", credentials)
+      .then((res) => {
+        console.log(res);
+        localStorage.setItem("token", res.data.payload);
+        push("/bubblepage");
+      })
+      .catch((err) => console.log("something wrong with request", { err }));
   };
 
   // when you have handled the token, navigate to the BubblePage route
@@ -42,7 +49,7 @@ const Login = () => {
     <div>
       <h1>Welcome to the Bubble App!</h1>
       <div data-testid="loginForm" className="login-form">
-        <form onSubmit={handleSubmit} >
+        <form onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username: </label>
             <input
